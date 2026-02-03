@@ -1,0 +1,10 @@
+Command for installing MPI on Debian-Based(e.g. ubuntu) Linux.
+
+installing c compiler
+$ sudo apt install build-essential
+
+installing mpich
+$ sudo apt install mpich
+
+You may verified the installation by running following command
+$ mpicc --version

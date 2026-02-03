@@ -1,0 +1,2 @@
+mpicc -o lab1_mpi_hello_world lab1_mpi_hello_world.c
+mpirun -n 6 --host localhost:6 ./lab1_mpi_hello_world
