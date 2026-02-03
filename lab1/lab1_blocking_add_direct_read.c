@@ -34,6 +34,11 @@ int main(int argc, char** argv) {
     fscanf(fileA, "%d %d", &rows, &cols);
     fscanf(fileB, "%d %d", &rows, &cols);
     
+    // Consume the newline after dimensions
+    char dummy_line[100];
+    fgets(dummy_line, sizeof(dummy_line), fileA);
+    fgets(dummy_line, sizeof(dummy_line), fileB);
+    
     printf("Process %d: Read dimensions %d x %d\n", rank, rows, cols);
     
     // Calculate rows per process
@@ -56,11 +61,11 @@ int main(int argc, char** argv) {
     local_B = (double*)malloc(local_rows * cols * sizeof(double));
     local_C = (double*)malloc(local_rows * cols * sizeof(double));
     
-    // Skip to the starting position for this process
-    double dummy;
-    for (int i = 0; i < start_row * cols; i++) {
-        fscanf(fileA, "%lf", &dummy);
-        fscanf(fileB, "%lf", &dummy);
+    // Skip to the starting position for this process (line-by-line)
+    char line_buffer[100000]; // Buffer for skipping entire rows
+    for (int i = 0; i < start_row; i++) {
+        fgets(line_buffer, sizeof(line_buffer), fileA);
+        fgets(line_buffer, sizeof(line_buffer), fileB);
     }
     
     // Read this process's portion of data
